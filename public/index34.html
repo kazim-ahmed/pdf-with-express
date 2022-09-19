@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" id="inp_pdfFile">
+    <textarea name="" id="result" cols="30" rows="10"></textarea>
+
+    <script>
+        const inp_pdfFile = document.getElementById("inp_pdfFile");
+        const result = document.getElementById("result");
+
+        inp_pdfFile.addEventListener("change",() => {
+            const formData = new FormData();
+
+            formData.append("pdfFile", inp_pdfFile.files[0]);
+
+            fetch("/extract-text", {
+                method: "post",
+                body: formData
+            }).then(response => {
+                return response.text();
+            }).then(extractedText => {
+                result.value = extractedText.trim();
+            });
+            // fetch("/extract-text",{
+            //     method: "post",
+            //     body: formData
+            // }),then( response => {
+            //     return response.text();
+            // }),then ( extractText => {
+            //     result.value = extractText;
+            // })
+        })
+    </script>
+</body>
+</html>
